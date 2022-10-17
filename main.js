@@ -39,6 +39,7 @@ Book.prototype = {
     return this.readStatus;
   },
 };
+
 // Library
 function Library() {
   this.data = [];
@@ -60,9 +61,13 @@ Library.prototype = {
     return this.data;
   },
 
-  //delete a book from library
+  // delete a book from library
   delete(id) {
     this.data.splice(id, 1);
+  },
+
+  changeReadStatus(id, readStatus) {
+    this.data[id].setReadStatus(readStatus);
   },
 };
 
@@ -77,6 +82,6 @@ myLibrary.add("adfvsfhd", "dsas", "209", false);
 
 console.table(myLibrary.getAllBooks());
 
-myLibrary.delete(2);
+myLibrary.changeReadStatus(2, false);
 
 console.table(myLibrary.getAllBooks());
