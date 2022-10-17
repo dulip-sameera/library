@@ -44,5 +44,15 @@ function Library() {
   this.data = [];
 }
 
+Library.prototype = {
+  add(title, author, noOfPages, readStatus) {
+    this.data[this.data.length] = new Book(
+      title,
+      author,
+      noOfPages,
+      readStatus
+    );
+  },
+};
 const myLibrary = new Library();
 console.table();
