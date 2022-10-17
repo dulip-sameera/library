@@ -1,22 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-body {
-    height: 100vh;
+
+.container {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 5fr;
+    grid-template-columns: 1fr 4fr;
+    height: 100vh;
 }
 
-header {
-    grid-row: 1/2;
-    background-color: #3242;
+.side-bar {
+    grid-column: 1/2;
+    padding: 5rem 2rem 2rem 2rem;
 }
 
-main {
-    grid-row: 2/3;
-    background-color: #982;
+.title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.label {
+    justify-self: center;
+    align-self: center;
+}
+
+.field {
+    padding: 5px;
+}
+
+.label, .field {
+    margin-bottom: 1rem;
+}
+
+.readStatus {
+    grid-column: 1/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.readStatusInputs {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-group {
+    grid-column: 1/3;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 1rem;
+    width: 5rem;
+    border-radius: 5px;
+    background-color: rgb(204, 204, 204);
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.btn:hover {
+    cursor: pointer;
+    border: 1px solid rgb(155, 155, 155);
+}
+
+.content {
+    grid-column: 2/3;
+    background-color: #620;
 }
