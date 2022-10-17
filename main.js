@@ -53,6 +53,11 @@ Library.prototype = {
       readStatus
     );
   },
+
+  getAllBooks() {
+    return this.data;
+  },
 };
+
 const myLibrary = new Library();
 console.table();
