@@ -39,3 +39,10 @@ Book.prototype = {
     return this.readStatus;
   },
 };
+// Library
+function Library() {
+  this.data = [];
+}
+
+const myLibrary = new Library();
+console.table();
