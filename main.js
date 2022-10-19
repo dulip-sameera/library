@@ -75,7 +75,8 @@ Library.prototype = {
 
 // card
 
-function Card(title, author, noOfPages, readStatus) {
+function Card(id, title, author, noOfPages, readStatus) {
+  this.id = id;
   this.title = title;
   this.author = author;
   this.noOfPages = noOfPages;
@@ -97,6 +98,7 @@ Card.prototype = {
     // create delete button image
     const deleteBtnImage = document.createElement("div");
     deleteBtnImage.classList.add("delete-btn-image");
+    deleteBtnImage.setAttribute("data-delete", this.id);
 
     // add delete btn image to delete btn
     deleteBtn.appendChild(deleteBtnImage);
@@ -163,7 +165,7 @@ Card.prototype = {
     const yesBtn = document.createElement("button");
     yesBtn.classList.add("yes");
     yesBtn.textContent = "Yes";
-    yesBtn.id = "yes";
+    yesBtn.setAttribute("data-id", this.id);
 
     // add yes button to read status options
     readStatusOptions.appendChild(yesBtn);
@@ -172,11 +174,9 @@ Card.prototype = {
     const noBtn = document.createElement("button");
     noBtn.classList.add("no");
     noBtn.textContent = "No";
-    noBtn.id = "no";
+    noBtn.setAttribute("data-id", this.id);
 
     // setting read status
-    const type = typeof this.readStatus;
-    console.log(type + " " + this.readStatus);
     if (this.readStatus) {
       yesBtn.classList.add("yesSelected");
     } else {
@@ -194,8 +194,9 @@ Card.prototype = {
 // show full library
 function showLibrary(data) {
   document.getElementById("content").innerHTML = "";
-  data.forEach((book) => {
+  data.forEach((book, index) => {
     const card = new Card(
+      index,
       book.getTitle(),
       book.getAuthor(),
       book.getNoOfPages(),
@@ -258,11 +259,8 @@ noOfPagesInput.addEventListener("keyup", function () {
   }
 });
 
-// add function
-
-const addBtn = document.getElementById("add");
-
-addBtn.addEventListener("click", function () {
+// add a book
+function addBook() {
   const title = titleInput.value;
   const author = authorInput.value;
   const noOfPages = noOfPagesInput.value;
@@ -277,12 +275,24 @@ addBtn.addEventListener("click", function () {
   clearForm();
 
   showLibrary(myLibrary.getAllBooks());
-});
+}
+// delete book
+function deleteBook(e) {
+  const id = e.target.attributes["data-delete"].value;
+  myLibrary.delete(id);
+  showLibrary(myLibrary.getAllBooks());
+}
 
-// clear button
-const clearBtn = document.getElementById("clear");
+//change read status
+function changeReadStatus(e) {
+  if (e.target.hasAttribute("data-id")) {
+    const id = e.target.attributes["data-id"].value;
+    const readStatus = e.target.textContent === "Yes" ? true : false;
 
-clearBtn.addEventListener("click", clearForm);
+    myLibrary.getAllBooks()[id].setReadStatus(readStatus);
+    showLibrary(myLibrary.getAllBooks());
+  }
+}
 
 // is radio button checked
 function isRadioBtnChecked(radioButtons) {
@@ -314,12 +324,25 @@ function clearForm() {
   }
 }
 
+const myLibrary = new Library();
+
+// add function
+const addBtn = document.getElementById("add");
+
+addBtn.addEventListener("click", addBook);
+
+// clear button
+const clearBtn = document.getElementById("clear");
+
+clearBtn.addEventListener("click", clearForm);
+
+// change read status
+window.addEventListener("click", changeReadStatus);
+
+// delete a book
+window.addEventListener("click", deleteBook);
+
 // show library on load
 window.addEventListener("load", function () {
   showLibrary(myLibrary.getAllBooks());
 });
-// testing..
-const myLibrary = new Library();
-myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);
-myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);
-myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);

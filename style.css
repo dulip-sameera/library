@@ -139,7 +139,7 @@
 
 .content {
     grid-column: 2/3;
-    background-color: #620;
+    background-color: rgb(196, 194, 194);
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
     gap: 2rem;
