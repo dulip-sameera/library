@@ -8,6 +8,50 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="container">
+      <div class="side-bar">
+        <h1 class="title">New Book</h1>
+        <div class="form">
+          <label for="title" class="label">Title:</label>
+          <input type="text" name="title" id="title" class="field" />
+          <label for="author" class="label">Author:</label>
+          <input type="text" name="author" id="author" class="field" />
+          <label for="noOfPages" class="label">No of pages:</label>
+          <input type="text" name="noOfPages" id="noOfPages" class="field" />
+          <div class="error-msg hide-error-msg" id="error-msg">
+            Not a number
+          </div>
+          <div class="readStatus">
+            <p>Have your read the book?</p>
+            <div class="readStatusInputs">
+              <div class="status">
+                <input
+                  type="radio"
+                  name="readStatus"
+                  id="readStatusYes"
+                  value="true"
+                />
+                <label for="readStatusYes">Yes</label>
+              </div>
+              <div class="status">
+                <input
+                  type="radio"
+                  name="readStatus"
+                  id="readStatusNo"
+                  value="false"
+                />
+                <label for="readStatusNo">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button id="add" class="add">Add</button>
+            <button id="clear" class="clear">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="content" id="content"></div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>
