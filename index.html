@@ -18,6 +18,9 @@
           <input type="text" name="author" id="author" class="field" />
           <label for="noOfPages" class="label">No of pages:</label>
           <input type="text" name="noOfPages" id="noOfPages" class="field" />
+          <div class="error-msg hide-error-msg" id="error-msg">
+            Not a number
+          </div>
           <div class="readStatus">
             <p>Have your read the book?</p>
             <div class="readStatusInputs">
@@ -42,12 +45,12 @@
             </div>
           </div>
           <div class="btn-group">
-            <button id="add" class="btn">Add</button>
-            <button id="clear" class="btn">Clear</button>
+            <button id="add" class="add">Add</button>
+            <button id="clear" class="clear">Clear</button>
           </div>
         </div>
       </div>
-      <div class="content"></div>
+      <div class="content" id="content"></div>
     </div>
     <script src="main.js"></script>
   </body>

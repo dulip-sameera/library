@@ -10,24 +10,29 @@
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: minmax(450px,1.2fr) 4fr;
     height: 100vh;
 }
 
 .side-bar {
     grid-column: 1/2;
-    padding: 5rem 2rem 2rem 2rem;
+    position: fixed;
 }
 
 .title {
     text-align: center;
     margin-bottom: 1rem;
+    position: relative;
+    top:5rem;
+    left: 2rem;
 }
 
 .form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    position: relative;
+    top: 5rem;
 }
 
 .label {
@@ -37,11 +42,44 @@
 
 .field {
     padding: 5px;
+    border-radius: 5px;
+    border: 2px solid rgb(175, 175, 175);
+}
+
+.field:focus {
+    outline: none !important;
+    border: 2px solid rgb(80, 80, 80);
 }
 
 .label, .field {
     margin-bottom: 1rem;
 }
+
+.invalid-input {
+    border: 2px solid #ff7b7b;
+}
+
+.invalid-input:focus {
+    outline: none!important;
+    border: 2px solid#fc1414;
+}
+
+.error-msg {
+    position: relative;
+    top: -2rem;
+    left: 20.5rem;
+    font-size: 0.6rem;
+    color: #ff5252;    
+}
+
+.show-error-msg {
+    visibility: visible;
+}
+
+.hide-error-msg{
+    visibility: hidden;
+}
+
 
 .readStatus {
     grid-column: 1/3;
@@ -50,6 +88,9 @@
     align-items: center;   
     gap: 0.5rem;
     margin-bottom: 1rem;
+
+    position: relative;
+    left: 2rem;
 }
 
 .readStatusInputs {
@@ -62,22 +103,172 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
+
+    position: relative;
+    left: 2rem;
 }
 
-.btn {
+
+.add, .clear {
     padding: 1rem;
     width: 5rem;
     border-radius: 5px;
-    background-color: rgb(204, 204, 204);
-    border: 1px solid rgb(204, 204, 204);
 }
 
-.btn:hover {
+.add {
+    background-color: rgb(194, 194, 194);
+    border: 1px solid rgb(194, 194, 194);
+}
+
+.add:hover {
     cursor: pointer;
-    border: 1px solid rgb(155, 155, 155);
+    background-color: #30cb00;
+    border: 1px solid #30cb00;
+}
+
+.clear {
+    background-color: rgb(194, 194, 194);
+    border: 1px solid rgb(194, 194, 194);
+}
+
+.clear:hover {
+    cursor: pointer;
+    background-color: #ff5252;
+    border: 1px solid #ff5252;
 }
 
 .content {
     grid-column: 2/3;
     background-color: #620;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.card {
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.book-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.delete-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete-btn-image {
+    background: url("./images/delete.svg");
+    width: 24px;
+    height: 24px;
+}
+
+.delete-btn-image:hover {
+    cursor: pointer;
+    background: url("./images/delete_hover.svg");
+}
+
+.book-title {
+    font-size: 1rem;
+}
+
+.book-content > p {
+    font-size: 0.7rem;
+}
+
+.book-author {
+    font-size: 0.8rem;
+}
+
+.book-read-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    justify-content: center;
+}
+
+.book-read-status > p {
+    align-self: center;
+    font-size: 0.7rem;
+}
+
+.book-read-status > .read-status-options {
+    display: flex;
+    justify-content: center;
+}
+
+.book-read-status > .read-status-options > button {
+    padding: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.book-read-status > .read-status-options > .yes {
+    border-radius: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid rgb(196, 194, 194);
+    background-color: rgb(196, 194, 194);
+}
+
+.book-read-status > .read-status-options > .yes:hover {
+    background-color: #30cb00;
+    border: 1px solid #30cb00;
+    cursor: pointer;
+}
+
+.book-read-status > .read-status-options > .no {
+    border-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid rgb(196, 194, 194);
+    background-color: rgb(196, 194, 194);
+}
+
+.book-read-status > .read-status-options > .no:hover {
+    background-color: #ff5252;
+    border: 1px solid #ff5252;
+    cursor: pointer;
+}
+
+.book-read-status > .read-status-options > .yesSelected {
+    background-color: #30cb00;
+    border: 1px solid #30cb00;
+    border-radius: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.book-read-status > .read-status-options > .yesSelected:hover {
+    cursor: pointer;
+    background-color: #4ae54a;
+    border: 1px solid #4ae54a;
+}
+
+
+
+.book-read-status > .read-status-options > .noSelected {
+    background-color: #ff5252;
+    border: 1px solid #ff5252;
+    border-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.book-read-status > .read-status-options > .noSelected:hover {
+    background-color: 	#ff7b7b;
+    border: 1px solid 	#ff7b7b;
+    cursor: pointer;
 }

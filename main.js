@@ -71,17 +71,255 @@ Library.prototype = {
   },
 };
 
+// UI functions
+
+// card
+
+function Card(title, author, noOfPages, readStatus) {
+  this.title = title;
+  this.author = author;
+  this.noOfPages = noOfPages;
+  this.readStatus = readStatus;
+}
+
+Card.prototype = {
+  create() {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    // create delete button
+    const deleteBtn = document.createElement("div");
+    deleteBtn.classList.add("delete-btn");
+
+    // add delete button to card
+    card.appendChild(deleteBtn);
+
+    // create delete button image
+    const deleteBtnImage = document.createElement("div");
+    deleteBtnImage.classList.add("delete-btn-image");
+
+    // add delete btn image to delete btn
+    deleteBtn.appendChild(deleteBtnImage);
+
+    // creating book content
+    const bookContent = document.createElement("div");
+    bookContent.classList.add("book-content");
+
+    // adding book content to card
+    card.appendChild(bookContent);
+
+    // book title
+    const bookTitle = document.createElement("h1");
+    bookTitle.classList.add("book-title");
+    bookTitle.textContent = this.title;
+
+    // adding book title to book content
+    bookContent.appendChild(bookTitle);
+
+    // creating "By" statement
+    const byStatement = document.createElement("p");
+    byStatement.textContent = "By";
+
+    // add "by" statement to book content
+    bookContent.appendChild(byStatement);
+
+    // book author
+    const bookAuthor = document.createElement("h2");
+    bookAuthor.classList.add("book-author");
+    bookAuthor.textContent = this.author;
+
+    // add book author to book content
+    bookContent.appendChild(bookAuthor);
+
+    // no of pages
+    const noOfBookPages = document.createElement("p");
+    noOfBookPages.textContent = `(${this.noOfPages} pages)`;
+
+    // add no of pages to book content
+    bookContent.appendChild(noOfBookPages);
+
+    // create have read
+    const bookReadStatus = document.createElement("div");
+    bookReadStatus.classList.add("book-read-status");
+
+    // add book read status to book content
+    bookContent.appendChild(bookReadStatus);
+
+    // book read label
+    const haveReadLabel = document.createElement("p");
+    haveReadLabel.textContent = "Have read?";
+
+    // add have read label to book read status
+    bookReadStatus.appendChild(haveReadLabel);
+
+    // create read options
+    const readStatusOptions = document.createElement("div");
+    readStatusOptions.classList.add("read-status-options");
+
+    // add read status options to book read status
+    bookReadStatus.appendChild(readStatusOptions);
+
+    // create yes button
+    const yesBtn = document.createElement("button");
+    yesBtn.classList.add("yes");
+    yesBtn.textContent = "Yes";
+    yesBtn.id = "yes";
+
+    // add yes button to read status options
+    readStatusOptions.appendChild(yesBtn);
+
+    // create no button
+    const noBtn = document.createElement("button");
+    noBtn.classList.add("no");
+    noBtn.textContent = "No";
+    noBtn.id = "no";
+
+    // setting read status
+    const type = typeof this.readStatus;
+    console.log(type + " " + this.readStatus);
+    if (this.readStatus) {
+      yesBtn.classList.add("yesSelected");
+    } else {
+      noBtn.classList.add("noSelected");
+    }
+
+    // add no button to read status options
+    readStatusOptions.appendChild(noBtn);
+
+    // add card to main content
+    document.getElementById("content").appendChild(card);
+  },
+};
+
+// show full library
+function showLibrary(data) {
+  document.getElementById("content").innerHTML = "";
+  data.forEach((book) => {
+    const card = new Card(
+      book.getTitle(),
+      book.getAuthor(),
+      book.getNoOfPages(),
+      book.getReadStatus()
+    );
+    card.create();
+  });
+}
+
+// all input valid flag
+let validInputs = false;
+
+// validate noOfPages input
+function validateNoPageInput(inputString) {
+  const validInput = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const inputArray = inputString.split("");
+  // console.log(inputArray);
+  let valid = true;
+  let errorMsg = "";
+  if (inputArray.length !== 0) {
+    inputArray.forEach((key) => {
+      if (!validInput.includes(key)) {
+        valid = false;
+        errorMsg = "Not a Number";
+        return;
+      }
+    });
+  } else {
+    valid = false;
+    errorMsg = "Can't be empty";
+  }
+  return {
+    valid: valid,
+    errorMsg: errorMsg,
+  };
+}
+
+// input fields
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const noOfPagesInput = document.getElementById("noOfPages");
+const readStatusInputs = document.querySelectorAll('input[name="readStatus"]');
+
+const errorMsg = document.getElementById("error-msg");
+
+noOfPagesInput.addEventListener("keyup", function () {
+  const validInput = validateNoPageInput(noOfPagesInput.value);
+  // console.log(validInput);
+  if (validInput.valid) {
+    validInputs = true;
+    errorMsg.classList.remove("show-error-msg");
+    errorMsg.classList.add("hide-error-msg");
+    noOfPagesInput.classList.remove("invalid-input");
+  } else {
+    validInputs = false;
+    errorMsg.textContent = validInput.errorMsg;
+    errorMsg.classList.add("show-error-msg");
+    errorMsg.classList.remove("hide-error-msg");
+    noOfPagesInput.classList.add("invalid-input");
+  }
+});
+
+// add function
+
+const addBtn = document.getElementById("add");
+
+addBtn.addEventListener("click", function () {
+  const title = titleInput.value;
+  const author = authorInput.value;
+  const noOfPages = noOfPagesInput.value;
+  const readStatus = isRadioBtnChecked(readStatusInputs);
+
+  if (title && author && noOfPages && readStatus.checked) {
+    readStatus.value = readStatus.value === "false" ? false : true;
+    myLibrary.add(title, author, noOfPages, readStatus.value);
+  }
+
+  // clear form
+  clearForm();
+
+  showLibrary(myLibrary.getAllBooks());
+});
+
+// clear button
+const clearBtn = document.getElementById("clear");
+
+clearBtn.addEventListener("click", clearForm);
+
+// is radio button checked
+function isRadioBtnChecked(radioButtons) {
+  let checked = false;
+  let value = "";
+
+  for (let i = 0; i < radioButtons.length; i++) {
+    const radioButton = radioButtons[i];
+    if (radioButton.checked) {
+      value = radioButton.value;
+      checked = true;
+    }
+  }
+  return {
+    checked: checked,
+    value: value,
+  };
+}
+
+// clear form function
+function clearForm() {
+  titleInput.value = "";
+  authorInput.value = "";
+  noOfPagesInput.value = "";
+
+  for (let i = 0; i < readStatusInputs.length; i++) {
+    const readStatusInput = readStatusInputs[i];
+    readStatusInput.checked = false;
+  }
+}
+
+// show library on load
+window.addEventListener("load", function () {
+  showLibrary(myLibrary.getAllBooks());
+});
 // testing..
-
 const myLibrary = new Library();
-myLibrary.add("ad", "as", "232", true);
-myLibrary.add("aasdd", "aasds", "22", false);
-myLibrary.add("ads", "asfg", "222", true);
-myLibrary.add("adhnf", "adaws", "432", true);
-myLibrary.add("adfvsfhd", "dsas", "209", false);
-
-console.table(myLibrary.getAllBooks());
-
-myLibrary.changeReadStatus(2, false);
-
-console.table(myLibrary.getAllBooks());
+myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);
+myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);
+myLibrary.add("The Hobbit", "T.R.R. Tolkein", "300", true);
