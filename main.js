@@ -1,44 +1,87 @@
 // Book
-function Book(title, author, noOfPages, readStatus) {
-  this.title = title;
-  this.author = author;
-  this.noOfPages = noOfPages;
-  this.readStatus = readStatus;
+
+class Book {
+  constructor(title, author, noOfPages, readStatus) {
+    this.title = title;
+    this.author = author;
+    this.noOfPages = noOfPages;
+    this.readStatus = readStatus;
+  }
+
+  // Getters and Setters
+  get title() {
+    return this._title;
+  }
+
+  set title(title) {
+    this._title = title;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  set author(author) {
+    this._author = author;
+  }
+
+  get noOfPages() {
+    return this._noOfPages;
+  }
+
+  set noOfPages(noOfPages) {
+    this._noOfPages = noOfPages;
+  }
+
+  get readStatus() {
+    return this._readStatus;
+  }
+
+  set readStatus(readStatus) {
+    this._readStatus = readStatus;
+  }
 }
 
-Book.prototype = {
-  setTitle(title) {
-    this.title = title;
-  },
+// function Book(title, author, noOfPages, readStatus) {
+//   this.title = title;
+//   this.author = author;
+//   this.noOfPages = noOfPages;
+//   this.readStatus = readStatus;
+// }
 
-  setAuthor(author) {
-    this.author = author;
-  },
+// Book.prototype = {
+//   setTitle(title) {
+//     this.title = title;
+//   },
 
-  setNoOfPages(noOfPages) {
-    this.noOfPages = noOfPages;
-  },
+//   setAuthor(author) {
+//     this.author = author;
+//   },
 
-  setReadStatus(readStatus) {
-    this.readStatus = readStatus;
-  },
+//   setNoOfPages(noOfPages) {
+//     this.noOfPages = noOfPages;
+//   },
 
-  getTitle() {
-    return this.title;
-  },
+//   setReadStatus(readStatus) {
+//     this.readStatus = readStatus;
+//   },
 
-  getAuthor() {
-    return this.author;
-  },
+//   getTitle() {
+//     return this.title;
+//   },
 
-  getNoOfPages() {
-    return this.noOfPages;
-  },
+//   getAuthor() {
+//     return this.author;
+//   },
 
-  getReadStatus() {
-    return this.readStatus;
-  },
-};
+//   getNoOfPages() {
+//     return this.noOfPages;
+//   },
+
+//   getReadStatus() {
+//     return this.readStatus;
+//   },
+// };
 
 // Library
 function Library() {
