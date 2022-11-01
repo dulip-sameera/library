@@ -250,50 +250,47 @@ class Render {
     });
   }
 
-  static showErrorMsg(inputElement, errorMsg) {
-    const validInput = validateNoPageInput(noOfPagesInput.value);
-    // console.log(validInput);
-    if (validInput.valid) {
-      validInputs = true;
-      errorMsg.classList.remove("show-error-msg");
-      errorMsg.classList.add("hide-error-msg");
+  static showErrorMsg(inputElement, errorMsgDisplay, errorMsg, validity) {
+    if (validity) {
+      errorMsgDisplay.classList.remove("show-error-msg");
+      errorMsgDisplay.classList.add("hide-error-msg");
       inputElement.classList.remove("invalid-input");
     } else {
-      validInputs = false;
-      errorMsg.textContent = validInput.errorMsg;
-      errorMsg.classList.add("show-error-msg");
-      errorMsg.classList.remove("hide-error-msg");
+      errorMsgDisplay.textContent = errorMsg;
+      errorMsgDisplay.classList.add("show-error-msg");
+      errorMsgDisplay.classList.remove("hide-error-msg");
       inputElement.classList.add("invalid-input");
     }
   }
 }
 
-// all input valid flag
-let validInputs = false;
+// Form
 
-// validate noOfPages input
-function validateNoPageInput(inputString) {
-  const validInput = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-  const inputArray = inputString.split("");
-  // console.log(inputArray);
-  let valid = true;
-  let errorMsg = "";
-  if (inputArray.length !== 0) {
-    inputArray.forEach((key) => {
-      if (!validInput.includes(key)) {
-        valid = false;
-        errorMsg = "Not a Number";
-        return;
-      }
-    });
-  } else {
-    valid = false;
-    errorMsg = "Can't be empty";
+class Form {
+  // validate noOfPages input
+  static validateNoPageInput(inputString) {
+    const validInput = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const inputArray = inputString.split("");
+    // console.log(inputArray);
+    let valid = true;
+    let errorMsg = "";
+    if (inputArray.length !== 0) {
+      inputArray.forEach((key) => {
+        if (!validInput.includes(key)) {
+          valid = false;
+          errorMsg = "Not a Number";
+          return;
+        }
+      });
+    } else {
+      valid = false;
+      errorMsg = "Can't be empty";
+    }
+    return {
+      valid: valid,
+      errorMsg: errorMsg,
+    };
   }
-  return {
-    valid: valid,
-    errorMsg: errorMsg,
-  };
 }
 
 // input fields
@@ -304,10 +301,6 @@ const readStatusInputs = document.querySelectorAll('input[name="readStatus"]');
 const contentContainer = document.getElementById("content");
 
 const errorMsg = document.getElementById("error-msg");
-
-noOfPagesInput.addEventListener("keyup", function () {
-  Render.showErrorMsg(noOfPagesInput, errorMsg);
-});
 
 // add a book
 function addBook() {
@@ -377,6 +370,17 @@ function clearForm() {
 }
 
 const myLibrary = new Library();
+
+//  validate
+noOfPagesInput.addEventListener("keyup", function () {
+  const validity = Form.validateNoPageInput(noOfPagesInput.value);
+  Render.showErrorMsg(
+    noOfPagesInput,
+    errorMsg,
+    validity.errorMsg,
+    validity.valid
+  );
+});
 
 // add function
 const addBtn = document.getElementById("add");
