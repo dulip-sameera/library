@@ -266,7 +266,7 @@ class Render {
 
 // Form
 
-class Form {
+class FormValidate {
   // validate noOfPages input
   static validateNoPageInput(inputString) {
     const validInput = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -291,6 +291,23 @@ class Form {
       errorMsg: errorMsg,
     };
   }
+
+  static isRadioBtnChecked(radioButtons) {
+    let checked = false;
+    let value = "";
+
+    for (let i = 0; i < radioButtons.length; i++) {
+      const radioButton = radioButtons[i];
+      if (radioButton.checked) {
+        value = radioButton.value;
+        checked = true;
+      }
+    }
+    return {
+      checked: checked,
+      value: value,
+    };
+  }
 }
 
 // input fields
@@ -307,7 +324,7 @@ function addBook() {
   const title = titleInput.value;
   const author = authorInput.value;
   const noOfPages = noOfPagesInput.value;
-  const readStatus = isRadioBtnChecked(readStatusInputs);
+  const readStatus = FormValidate.isRadioBtnChecked(readStatusInputs);
 
   if (title && author && noOfPages && readStatus.checked) {
     readStatus.value = readStatus.value === "false" ? false : true;
@@ -339,24 +356,6 @@ function changeReadStatus(e) {
   }
 }
 
-// is radio button checked
-function isRadioBtnChecked(radioButtons) {
-  let checked = false;
-  let value = "";
-
-  for (let i = 0; i < radioButtons.length; i++) {
-    const radioButton = radioButtons[i];
-    if (radioButton.checked) {
-      value = radioButton.value;
-      checked = true;
-    }
-  }
-  return {
-    checked: checked,
-    value: value,
-  };
-}
-
 // clear form function
 function clearForm() {
   titleInput.value = "";
@@ -373,7 +372,7 @@ const myLibrary = new Library();
 
 //  validate
 noOfPagesInput.addEventListener("keyup", function () {
-  const validity = Form.validateNoPageInput(noOfPagesInput.value);
+  const validity = FormValidate.validateNoPageInput(noOfPagesInput.value);
   Render.showErrorMsg(
     noOfPagesInput,
     errorMsg,
