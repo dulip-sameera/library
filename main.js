@@ -235,7 +235,6 @@ class Card {
 }
 
 // Render
-// document.getElementById("content")
 class Render {
   static showLibrary(data, element) {
     element.innerHTML = "";
@@ -249,6 +248,23 @@ class Render {
       );
       card.create(element);
     });
+  }
+
+  static showErrorMsg(inputElement, errorMsg) {
+    const validInput = validateNoPageInput(noOfPagesInput.value);
+    // console.log(validInput);
+    if (validInput.valid) {
+      validInputs = true;
+      errorMsg.classList.remove("show-error-msg");
+      errorMsg.classList.add("hide-error-msg");
+      inputElement.classList.remove("invalid-input");
+    } else {
+      validInputs = false;
+      errorMsg.textContent = validInput.errorMsg;
+      errorMsg.classList.add("show-error-msg");
+      errorMsg.classList.remove("hide-error-msg");
+      inputElement.classList.add("invalid-input");
+    }
   }
 }
 
@@ -290,20 +306,7 @@ const contentContainer = document.getElementById("content");
 const errorMsg = document.getElementById("error-msg");
 
 noOfPagesInput.addEventListener("keyup", function () {
-  const validInput = validateNoPageInput(noOfPagesInput.value);
-  // console.log(validInput);
-  if (validInput.valid) {
-    validInputs = true;
-    errorMsg.classList.remove("show-error-msg");
-    errorMsg.classList.add("hide-error-msg");
-    noOfPagesInput.classList.remove("invalid-input");
-  } else {
-    validInputs = false;
-    errorMsg.textContent = validInput.errorMsg;
-    errorMsg.classList.add("show-error-msg");
-    errorMsg.classList.remove("hide-error-msg");
-    noOfPagesInput.classList.add("invalid-input");
-  }
+  Render.showErrorMsg(noOfPagesInput, errorMsg);
 });
 
 // add a book
