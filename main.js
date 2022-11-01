@@ -127,7 +127,7 @@ class Card {
     this._readStatus = readStatus;
   }
 
-  create() {
+  create(element) {
     const card = document.createElement("div");
     card.classList.add("card");
 
@@ -230,23 +230,26 @@ class Card {
     readStatusOptions.appendChild(noBtn);
 
     // add card to main content
-    document.getElementById("content").appendChild(card);
+    element.appendChild(card);
   }
 }
 
-// show full library
-function showLibrary(data) {
-  document.getElementById("content").innerHTML = "";
-  data.forEach((book, index) => {
-    const card = new Card(
-      index,
-      book.title,
-      book.author,
-      book.noOfPages,
-      book.readStatus
-    );
-    card.create();
-  });
+// Render
+// document.getElementById("content")
+class Render {
+  static showLibrary(data, element) {
+    element.innerHTML = "";
+    data.forEach((book, index) => {
+      const card = new Card(
+        index,
+        book.title,
+        book.author,
+        book.noOfPages,
+        book.readStatus
+      );
+      card.create(element);
+    });
+  }
 }
 
 // all input valid flag
@@ -282,6 +285,7 @@ const titleInput = document.getElementById("title");
 const authorInput = document.getElementById("author");
 const noOfPagesInput = document.getElementById("noOfPages");
 const readStatusInputs = document.querySelectorAll('input[name="readStatus"]');
+const contentContainer = document.getElementById("content");
 
 const errorMsg = document.getElementById("error-msg");
 
@@ -317,14 +321,14 @@ function addBook() {
   // clear form
   clearForm();
 
-  showLibrary(myLibrary.getAllBooks());
+  Render.showLibrary(myLibrary.getAllBooks(), contentContainer);
 }
 // delete book
 function deleteBook(e) {
   if (e.target.hasAttribute("data-delete")) {
     const id = e.target.attributes["data-delete"].value;
     myLibrary.deleteBook(id);
-    showLibrary(myLibrary.getAllBooks());
+    Render.showLibrary(myLibrary.getAllBooks(), contentContainer);
   }
 }
 
@@ -335,7 +339,7 @@ function changeReadStatus(e) {
     const readStatus = e.target.textContent === "Yes" ? true : false;
 
     myLibrary.getAllBooks()[id].readStatus = readStatus;
-    showLibrary(myLibrary.getAllBooks());
+    Render.showLibrary(myLibrary.getAllBooks(), contentContainer);
   }
 }
 
@@ -389,5 +393,5 @@ window.addEventListener("click", deleteBook);
 
 // show library on load
 window.addEventListener("load", function () {
-  showLibrary(myLibrary.getAllBooks());
+  Render.showLibrary(myLibrary.getAllBooks(), contentContainer);
 });
