@@ -42,91 +42,91 @@ class Book {
   }
 }
 
-// function Book(title, author, noOfPages, readStatus) {
-//   this.title = title;
-//   this.author = author;
-//   this.noOfPages = noOfPages;
-//   this.readStatus = readStatus;
-// }
+// // Library
+class Library {
+  constructor() {
+    this.data = [];
+  }
 
-// Book.prototype = {
-//   setTitle(title) {
-//     this.title = title;
-//   },
+  get data() {
+    return this._data;
+  }
 
-//   setAuthor(author) {
-//     this.author = author;
-//   },
+  set data(data) {
+    this._data = data;
+  }
 
-//   setNoOfPages(noOfPages) {
-//     this.noOfPages = noOfPages;
-//   },
+  addBook(title, author, noOfPages, readStatus) {
+    const book = new Book(title, author, noOfPages, readStatus);
+    this.data[this.data.length] = book;
+  }
 
-//   setReadStatus(readStatus) {
-//     this.readStatus = readStatus;
-//   },
+  deleteBook(index) {
+    this.data.splice(index, 1);
+  }
 
-//   getTitle() {
-//     return this.title;
-//   },
+  changeBookReadStatus(index, readStatus) {
+    this.data[index].readStatus = readStatus;
+  }
 
-//   getAuthor() {
-//     return this.author;
-//   },
-
-//   getNoOfPages() {
-//     return this.noOfPages;
-//   },
-
-//   getReadStatus() {
-//     return this.readStatus;
-//   },
-// };
-
-// Library
-function Library() {
-  this.data = [];
-}
-
-Library.prototype = {
-  //add a book to the library
-  add(title, author, noOfPages, readStatus) {
-    this.data[this.data.length] = new Book(
-      title,
-      author,
-      noOfPages,
-      readStatus
-    );
-  },
-
-  // return all books in the library
   getAllBooks() {
     return this.data;
-  },
-
-  // delete a book from library
-  delete(id) {
-    this.data.splice(id, 1);
-  },
-
-  changeReadStatus(id, readStatus) {
-    this.data[id].setReadStatus(readStatus);
-  },
-};
+  }
+}
 
 // UI functions
 
 // card
 
-function Card(id, title, author, noOfPages, readStatus) {
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.noOfPages = noOfPages;
-  this.readStatus = readStatus;
-}
+class Card {
+  constructor(id, title, author, noOfPages, readStatus) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.noOfPages = noOfPages;
+    this.readStatus = readStatus;
+  }
 
-Card.prototype = {
+  get id() {
+    return this._id;
+  }
+
+  set id(id) {
+    this._id = id;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  set title(title) {
+    this._title = title;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  set author(author) {
+    this._author = author;
+  }
+
+  get noOfPages() {
+    return this._noOfPages;
+  }
+
+  set noOfPages(noOfPages) {
+    this._noOfPages = noOfPages;
+  }
+
+  get readStatus() {
+    return this._readStatus;
+  }
+
+  set readStatus(readStatus) {
+    this._readStatus = readStatus;
+  }
+
   create() {
     const card = document.createElement("div");
     card.classList.add("card");
@@ -231,8 +231,8 @@ Card.prototype = {
 
     // add card to main content
     document.getElementById("content").appendChild(card);
-  },
-};
+  }
+}
 
 // show full library
 function showLibrary(data) {
@@ -240,10 +240,10 @@ function showLibrary(data) {
   data.forEach((book, index) => {
     const card = new Card(
       index,
-      book.getTitle(),
-      book.getAuthor(),
-      book.getNoOfPages(),
-      book.getReadStatus()
+      book.title,
+      book.author,
+      book.noOfPages,
+      book.readStatus
     );
     card.create();
   });
@@ -311,7 +311,7 @@ function addBook() {
 
   if (title && author && noOfPages && readStatus.checked) {
     readStatus.value = readStatus.value === "false" ? false : true;
-    myLibrary.add(title, author, noOfPages, readStatus.value);
+    myLibrary.addBook(title, author, noOfPages, readStatus.value);
   }
 
   // clear form
@@ -321,9 +321,11 @@ function addBook() {
 }
 // delete book
 function deleteBook(e) {
-  const id = e.target.attributes["data-delete"].value;
-  myLibrary.delete(id);
-  showLibrary(myLibrary.getAllBooks());
+  if (e.target.hasAttribute("data-delete")) {
+    const id = e.target.attributes["data-delete"].value;
+    myLibrary.deleteBook(id);
+    showLibrary(myLibrary.getAllBooks());
+  }
 }
 
 //change read status
@@ -332,7 +334,7 @@ function changeReadStatus(e) {
     const id = e.target.attributes["data-id"].value;
     const readStatus = e.target.textContent === "Yes" ? true : false;
 
-    myLibrary.getAllBooks()[id].setReadStatus(readStatus);
+    myLibrary.getAllBooks()[id].readStatus = readStatus;
     showLibrary(myLibrary.getAllBooks());
   }
 }
